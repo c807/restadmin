@@ -1,0 +1,8 @@
+{
+    "name": "admin/application",
+    "description": "Restouch",
+    "require": {
+        "chriskacerguis/codeigniter-restserver": "^3.0"
+    },
+    "authors": []
+}

@@ -1,2 +1,2 @@
 # restadmin
-Modulo administrativo para resttouch
+Sistema para la gestión empresarial
