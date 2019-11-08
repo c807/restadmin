@@ -1,2 +1,2 @@
 # restadmin
-Sistema para la gestión empresarial
+Módulo de administración de Rest-Touch Pro
