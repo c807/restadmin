@@ -35,8 +35,7 @@ class Usuario extends Restserver
     public function usuarios_get()
     {
         if ($this->status_verification_request) {
-            $debaja = (int) $this->get('debaja');
-            $this->response($this->Usuario_model->findAll($debaja));
+            $this->response($this->Usuario_model->find());
         } else {
             $this->noAutorizado();
         }
@@ -57,7 +56,7 @@ class Usuario extends Restserver
     public function usuario_put()
     {
         if ($this->status_verification_request) {
-            $id = isset($_GET['usuario']) ? (int) $_GET['usuario'] : 0;
+            $id = $this->getGetParam($this->Usuario_model->pKey, 0);
             $datos = $this->getValidData($this->put(), $this->Usuario_model->columnas);
             $status = parent::HTTP_OK;
             $nuevo = $this->Usuario_model->actualizar($id, $datos);

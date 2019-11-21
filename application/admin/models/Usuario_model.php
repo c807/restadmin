@@ -1,22 +1,13 @@
 <?php
 
-class Usuario_model extends CI_Model
+class Usuario_model extends Db_model
 {
-    private $tabla = 'usuario';
-    private $msgBitacora = '';
-    public $columnas = [];
-    public $idusuario = 0;
-
     public function __construct()
     {
         parent::__construct();
-        $this->load->model('Db_model');
+        $this->tabla = 'usuario';
+        $this->pKey = 'usuario';
         $this->setColumnas();
-    }
-
-    private function setColumnas()
-    {
-        $this->columnas = $this->Db_model->getTableColumns($this->db->database, $this->tabla);
     }
 
     function logIn($credenciales = null)
@@ -96,24 +87,18 @@ class Usuario_model extends CI_Model
                     $dataToInsert['contrasenia'] = password_hash($dataToInsert['contrasenia'], PASSWORD_BCRYPT, array('cost' => 12));
                 }
 
-                $this->db->insert($this->tabla, $dataToInsert);
-                $this->msgBitacora = 'Usuario creado con éxito. ' . (json_encode($dataToInsert));
-                $this->Db_model->addBitacora($this->msgBitacora, $this->idusuario);
-                return array(
-                    'mensaje' => 'Usuario creado con éxito.',
-                    'usuario' => $this->db->insert_id()
+                return $this->addElement(
+                    $dataToInsert,
+                    'Usuario creado con éxito. ',
+                    'Usuario creado con éxito. '
                 );
             } else {
-                $this->msgBitacora = 'Este usuario ya existe. ' . (json_encode($dataToInsert));
-                $this->Db_model->addBitacora($this->msgBitacora, $this->idusuario);
                 return array(
                     'mensaje' => 'Este usuario ya existe.',
                     'usuario' => $idusr
                 );
             }
         } else {
-            $this->msgBitacora = 'La información enviada no es correcta o está incompleta. ' . (json_encode($dataToInsert));
-            $this->Db_model->addBitacora($this->msgBitacora, $this->idusuario);
             return array(
                 'mensaje' => 'La información enviada no es correcta o está incompleta.',
                 'usuario' => null
@@ -123,41 +108,20 @@ class Usuario_model extends CI_Model
 
     function actualizar($id = 0, $dataToUpdate = null)
     {
-        if ($dataToUpdate) {
-            if (array_key_exists('contrasenia', $dataToUpdate)) {
-                $dataToUpdate['contrasenia'] = password_hash($dataToUpdate['contrasenia'], PASSWORD_BCRYPT, array('cost' => 12));
-            }
-            $this->db->where('usuario', $id);
-            $this->db->update($this->tabla, $dataToUpdate);
-            $this->msgBitacora = 'Usuario actualizado con éxito. ' . (json_encode($dataToUpdate));
-            $this->Db_model->addBitacora($this->msgBitacora, $this->idusuario);
-            return array(
-                'mensaje' => 'Usuario actualizado con éxito.',
-                'usuario' => $id
-            );
-        } else {
-            $this->msgBitacora = 'La información enviada no es correcta o está incompleta. ' . (json_encode($dataToUpdate));
-            $this->Db_model->addBitacora($this->msgBitacora, $this->idusuario);
-            return array(
-                'mensaje' => 'La información enviada no es correcta o está incompleta.',
-                'usuario' => null
-            );
-        }
+        return $this->updElement(
+            $dataToUpdate,
+            $id,
+            'Usuario actualizado con éxito. ',
+            'Usuario actualizado con éxito. '
+        );
     }
 
-    function findAll($debaja = 0)
+    function find($filtros = [], $fetchMaster = false)
     {
-        $this->msgBitacora = 'El usuario consultó la lista de usuarios.';
-        $this->Db_model->addBitacora($this->msgBitacora, $this->idusuario);
-
-        if ($debaja !== 3) {
-            $this->db->where('debaja', $debaja);
-        }
-
-        return $this->db
-            ->select(join(',', $this->columnas))
-            ->from($this->tabla)
-            ->get()
-            ->result();
+        return $this->getElements(
+            $filtros,
+            'Consulta de usuarios por filtro. ',
+            $fetchMaster
+        );
     }
 }

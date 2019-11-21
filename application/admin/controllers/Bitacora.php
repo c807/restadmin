@@ -22,7 +22,7 @@ class Bitacora extends Restserver
     public function bitacora_get()
     {
         if ($this->status_verification_request) {
-            $this->response($this->Bitacora_model->findAll());
+            $this->response($this->Bitacora_model->find());
         } else {
             $this->noAutorizado();
         }

@@ -23,8 +23,7 @@ class Cliente extends Restserver
     public function clientes_get()
     {
         if ($this->status_verification_request) {
-            $debaja = (int) $this->get('debaja');
-            $this->response($this->Cliente_model->findAll($debaja));
+            $this->response($this->Cliente_model->find());
         } else {
             $this->noAutorizado();
         }
@@ -54,7 +53,7 @@ class Cliente extends Restserver
     public function cliente_put()
     {
         if ($this->status_verification_request) {
-            $id = isset($_GET['cliente']) ? (int) $_GET['cliente'] : 0;
+            $id = $this->getGetParam($this->Cliente_model->pKey, 0);
             $datos = $this->getValidData($this->put(), $this->Cliente_model->columnas);
             $status = parent::HTTP_OK;
             $nuevo = $this->Cliente_model->actualizar($id, $datos);

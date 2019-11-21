@@ -85,4 +85,9 @@ class Restserver extends REST_Controller
 		}
 		return $datos;
 	}
+
+	public function getGetParam($param = '', $retValIfNotExists = null)
+	{
+		return isset($_GET[$param]) ? (int) $_GET[$param] : $retValIfNotExists;
+	}
 }

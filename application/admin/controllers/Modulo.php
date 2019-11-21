@@ -23,8 +23,7 @@ class Modulo extends Restserver
     public function modulos_get()
     {
         if ($this->status_verification_request) {
-            $debaja = (int) $this->get('debaja');
-            $this->response($this->Modulo_model->findAll($debaja));
+            $this->response($this->Modulo_model->find());
         } else {
             $this->noAutorizado();
         }
@@ -54,7 +53,7 @@ class Modulo extends Restserver
     public function modulo_put()
     {
         if ($this->status_verification_request) {
-            $id = isset($_GET['modulo']) ? (int) $_GET['modulo'] : 0;
+            $id = $this->getGetParam($this->Modulo_model->pKey, 0);
             $datos = $this->getValidData($this->put(), $this->Modulo_model->columnas);
             $status = parent::HTTP_OK;
             $nuevo = $this->Modulo_model->actualizar($id, $datos);

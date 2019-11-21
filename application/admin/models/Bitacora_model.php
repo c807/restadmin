@@ -1,39 +1,30 @@
 <?php
 
-class Bitacora_model extends CI_Model
+class Bitacora_model extends Db_model
 {
-    private $tabla = 'bitacora';
-    public $columnas = [];
-
     public function __construct()
     {
         parent::__construct();
+        $this->tabla = 'bitacora';
+        $this->pKey = 'bitacora';
         $this->setColumnas();
-    }
-
-    private function setColumnas()
-    {
-        $this->load->model('Db_model');
-        $this->columnas = $this->Db_model->getTableColumns($this->db->database, $this->tabla);
     }
 
     function crear($dataToInsert = null)
     {
-        if ($dataToInsert) {
-            $this->db->insert($this->tabla, $dataToInsert);
-            return array(
-                'mensaje' => 'Bitácora creada con éxito.',
-                'bitacora' => $this->db->insert_id()
-            );
-        }
+        return $this->addElement(
+            $dataToInsert,
+            'Bitácora creada con éxito.',
+            'Bitácora creada con éxito.'
+        );
     }
 
-    function findAll()
+    function find($filtros = [], $fetchMaster = false)
     {
-        return $this->db
-            ->select(join(',', $this->columnas))
-            ->from($this->tabla)
-            ->get()
-            ->result();
+        return $this->getElements(
+            $filtros,
+            'Consulta de bitácora por filtro.',
+            $fetchMaster
+        );
     }
 }
