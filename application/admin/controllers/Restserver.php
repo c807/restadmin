@@ -88,6 +88,14 @@ class Restserver extends REST_Controller
 
 	public function getGetParam($param = '', $retValIfNotExists = null)
 	{
-		return isset($_GET[$param]) ? (int) $_GET[$param] : $retValIfNotExists;
+		if (!is_array($param)) {
+			return isset($_GET[$param]) ? (int) $_GET[$param] : $retValIfNotExists;
+		} else {
+			$temp = [];
+			foreach ($param as $v) {
+				$temp[$v] = isset($_GET[$v]) ? (int) $_GET[$v] : $retValIfNotExists;
+			}
+			return $temp;
+		}
 	}
 }

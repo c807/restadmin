@@ -68,14 +68,14 @@ class Db_model extends CI_Model
             $this->addBitacora($this->msgBitacora, $this->idusuario);
             return array(
                 'mensaje' => $mensajeRespuesta,
-                $this->pKey => $lastid
+                !is_array($this->pKey) ? $this->pKey : join('-', $this->pKey) => $lastid
             );
         } else {
             $this->msgBitacora = 'La información enviada no es correcta o está incompleta. ' . (json_encode($dataToInsert));
             $this->addBitacora($this->msgBitacora, $this->idusuario);
             return array(
                 'mensaje' => 'La información enviada no es correcta o está incompleta.',
-                $this->pKey => null
+                !is_array($this->pKey) ? $this->pKey : join('-', $this->pKey) => null
             );
         }
     }
@@ -83,20 +83,34 @@ class Db_model extends CI_Model
     public function updElement($dataToUpdate, $id, $mensajeBitacora = '', $mensajeRespuesta = '')
     {
         if ($dataToUpdate) {
-            $this->db->where($this->pKey, $id);
+            if (!is_array($this->pKey) && !is_array($id)) {
+                $this->db->where($this->pKey, $id);
+            } else if (is_array($this->pKey) && is_array($id)) {
+                if (count($this->pKey) && count($id)) {
+                    $cntKeys = count($this->pKey);
+                    for ($i = 0; $i < $cntKeys; $i++) {
+                        $this->db->where($this->pKey[$i], $id[$this->pKey[$i]]);
+                    }
+                } else {
+                    return array('mensaje' => 'Los array deben ir con la misma cantidad de elementos.');
+                }
+            } else {
+                return array('mensaje' => 'Debe enviar tipo string o tipo array.');
+            }
+
             $this->db->update($this->tabla, $dataToUpdate);
             $this->msgBitacora = "$mensajeBitacora" . (json_encode($dataToUpdate));
             $this->addBitacora($this->msgBitacora, $this->idusuario);
             return array(
                 'mensaje' => $mensajeRespuesta,
-                $this->pKey => $id
+                !is_array($this->pKey) ? $this->pKey : join('-', $this->pKey) => !is_array($id) ? $id : join('-', $id)
             );
         } else {
             $this->msgBitacora = 'La información enviada no es correcta o está incompleta. ' . (json_encode($dataToUpdate));
             $this->addBitacora($this->msgBitacora, $this->idusuario);
             return array(
                 'mensaje' => 'La información enviada no es correcta o está incompleta.',
-                $this->pKey => null
+                !is_array($this->pKey) ? $this->pKey : join('-', $this->pKey) => null
             );
         }
     }
