@@ -1,0 +1,15 @@
+<div class="container-fluid">
+    <div class="row">
+        <div class="col text-center">
+            <h3>MÓDULOS</h3>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-4">
+            <app-lista-modulos #lstModulos (getModuloEv)="setModulo($event)"></app-lista-modulos>
+        </div>
+        <div class="col-8">
+            <app-form-modulo [modulo]="modulo" (saved)="refreshList()"></app-form-modulo>
+        </div>
+    </div>
+</div>

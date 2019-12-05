@@ -1,0 +1,22 @@
+<mat-toolbar color="primary-lighter">
+    <mat-toolbar-row>
+        <img src="../../../../assets/img/minilogo.svg" width="30" height="30" alt="Rest-Admin">&nbsp;
+        <label>Administrativo</label>
+        <span class="spacer"></span>
+        <app-clock></app-clock>
+        <span class="spacer"></span>
+        <button mat-button [matMenuTriggerFor]="menu">
+            {{usrInfo.usuario}}&nbsp;<mat-icon>keyboard_arrow_down</mat-icon>
+        </button>
+        <mat-menu #menu="matMenu">
+            <button mat-menu-item type="button">
+                <mat-icon>person</mat-icon>
+                <span>Perfil</span>
+            </button>
+            <button mat-menu-item type="button" (click)="LogOut()">
+                <mat-icon>power_settings_new</mat-icon>
+                <span>Cerrar sesión</span>
+            </button>
+        </mat-menu>
+    </mat-toolbar-row>
+</mat-toolbar>

@@ -1,0 +1,15 @@
+<div class="container-fluid">
+    <div class="row">
+        <div class="col text-center">
+            <h3>CLIENTES</h3>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-4">
+            <app-lista #lstClientesComponent (getClienteEv)="setCliente($event)"></app-lista>
+        </div>
+        <div class="col-8">
+            <app-form-cliente [cliente]="cliente" (saved)="refreshList()"></app-form-cliente>
+        </div>
+    </div>
+</div>

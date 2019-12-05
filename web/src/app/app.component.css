@@ -1,0 +1,13 @@
+#mtbHeader {
+    /*border: solid 1px black;*/
+    padding-left: 0px;
+    padding-right: 0px;
+}
+
+#appHeader {
+    width: 100%;
+}
+
+.matSideNavContainer {
+    height: 100%;
+}

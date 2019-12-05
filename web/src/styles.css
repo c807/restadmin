@@ -1,0 +1,46 @@
+/* You can add global styles to this file, and also import other style files */
+
+html, body {
+    height: 100%;
+}
+
+body {
+    margin: 0;
+    font-family: "Inconsolata", monospace, Roboto, "Helvetica Neue", sans-serif;
+}
+
+.fontFamily {
+    font-family: 'Iconsolata', monospace, Roboto, "Helvetica Neue", sans-serif;
+}
+
+.bckDarkGrey {
+    background-color: #444444;
+}
+
+.bckGrey {
+    background-color: #858181;
+}
+
+.bckSemiDarkGrey {
+    background-color: #555555;
+}
+
+.bckSemiLightGrey {
+    background-color: #666666;
+}
+
+.bckLightGrey {
+    background-color: #fafafa;
+}
+
+.fontColorWhite {
+    color: white;
+}
+
+.fontColorBlack {
+    color: black;
+}
+
+.bckRed{
+    background-color: #DA332D;
+}

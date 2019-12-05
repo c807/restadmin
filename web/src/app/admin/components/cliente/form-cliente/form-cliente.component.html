@@ -1,0 +1,244 @@
+<mat-card class="mat-elevation-z4">
+    <mat-card-title>
+        <h4 class="fontFamily">Cliente</h4>
+    </mat-card-title>
+    <mat-card-content>
+        <form #frmCliente="ngForm" (ngSubmit)="frmCliente.form.valid && onSubmit()" novalidate>
+            <div class="form-group">
+                <mat-form-field class="full-width">
+                    <input matInput placeholder="Nombre" name="nombre" [(ngModel)]="cliente.nombre" required>
+                </mat-form-field>
+            </div>
+            <div class="form-group">
+                <mat-form-field class="full-width">
+                    <input matInput placeholder="Teléfono" name="telefono" [(ngModel)]="cliente.telefono">
+                </mat-form-field>
+            </div>
+            <div class="form-group">
+                <mat-form-field class="full-width">
+                    <input matInput placeholder="E-mail" name="correoe" [(ngModel)]="cliente.correoe">
+                </mat-form-field>
+            </div>
+            <div class="form-group">
+                <mat-form-field class="full-width">
+                    <textarea matInput placeholder="Comentarios" name="comentarios"
+                        [(ngModel)]="cliente.comentarios"></textarea>
+                </mat-form-field>
+            </div>
+            <div class="btn-group d-flex justify-content-end" role="group">
+                <button mat-icon-button type="submit" color="accent" [disabled]="!frmCliente.form.valid">
+                    <mat-icon>save</mat-icon>
+                </button>
+                <button mat-icon-button type="button" color="accent" (click)="resetCliente()" *ngIf="cliente.cliente">
+                    <mat-icon>add</mat-icon>
+                </button>
+            </div>
+        </form>
+    </mat-card-content>
+</mat-card>
+<hr *ngIf="+cliente.cliente > 0" />
+<mat-tab-group *ngIf="+cliente.cliente > 0" dynamicHeight>
+    <mat-tab label="Corporaciones">
+        <mat-card class="mat-elevation-z4">
+            <mat-card-content>
+                <form #frmCorporacionCliente="ngForm"
+                    (ngSubmit)="frmCorporacionCliente.form.valid && onSubmitCorporacion()" novalidate>
+                    <div class="form-group" *ngIf="edCorporacion">
+                        <mat-form-field class="full-width">
+                            <input matInput placeholder="Nombre" name="nombre" [(ngModel)]="corporacion.nombre"
+                                required>
+                        </mat-form-field>
+                    </div>
+                    <div class="form-group" *ngIf="edCorporacion">
+                        <mat-form-field class="full-width">
+                            <textarea matInput placeholder="Descripción" name="descripcion"
+                                [(ngModel)]="corporacion.descripcion"></textarea>
+                        </mat-form-field>
+                    </div>
+                    <div class="btn-group d-flex justify-content-end" role="group">
+                        <button mat-icon-button type="button" color="accent" (click)="edCorporacion=true"
+                            *ngIf="!edCorporacion">
+                            <mat-icon>keyboard_arrow_down</mat-icon>
+                        </button>
+                        <button mat-icon-button type="button" color="accent" (click)="edCorporacion=false"
+                            *ngIf="edCorporacion">
+                            <mat-icon>keyboard_arrow_up</mat-icon>
+                        </button>
+                        <button mat-icon-button type="submit" color="accent" *ngIf="edCorporacion"
+                            [disabled]="!frmCorporacionCliente.form.valid">
+                            <mat-icon>save</mat-icon>
+                        </button>
+                        <button mat-icon-button type="button" color="accent" (click)="resetCorporacionCliente()"
+                            *ngIf="corporacion.cliente_corporacion && edCorporacion">
+                            <mat-icon>add</mat-icon>
+                        </button>
+                    </div>
+                </form>
+                <hr *ngIf="corporaciones.length > 0" />
+                <table mat-table [dataSource]="dsTblClienteCorporacion" class="mat-elevation-z4 full-width"
+                    *ngIf="corporaciones.length > 0">
+                    <ng-container matColumnDef="ver">
+                        <th mat-header-cell *matHeaderCellDef>&nbsp;</th>
+                        <td mat-cell *matCellDef="let row" class="text-wrap">
+                            <button mat-icon-button type="button" color="accent">
+                                <mat-icon>open_in_browser</mat-icon>
+                            </button>
+                        </td>
+                    </ng-container>
+                    <ng-container matColumnDef="nombre">
+                        <th mat-header-cell *matHeaderCellDef>Nombre</th>
+                        <td mat-cell *matCellDef="let element" class="text-wrap fontFamily">{{element.nombre}}</td>
+                    </ng-container>
+                    <ng-container matColumnDef="llave">
+                        <th mat-header-cell *matHeaderCellDef>Llave</th>
+                        <td mat-cell *matCellDef="let element" class="text-wrap fontFamily">{{element.llave}}</td>
+                    </ng-container>
+                    <ng-container matColumnDef="descripcion">
+                        <th mat-header-cell *matHeaderCellDef>Descripción</th>
+                        <td mat-cell *matCellDef="let element" class="text-wrap fontFamily">
+                            <p>{{element.descripcion}}</p>
+                        </td>
+                    </ng-container>
+                    <ng-container matColumnDef="autenticar">
+                        <th mat-header-cell *matHeaderCellDef>&nbsp;</th>
+                        <td mat-cell *matCellDef="let element" class="text-wrap">
+                            <button mat-icon-button type="button" color="accent" (click)="autenticar()">
+                                <mat-icon>how_to_reg</mat-icon>
+                            </button>
+                        </td>
+                    </ng-container>
+                    <ng-container matColumnDef="crearInstancia">
+                        <th mat-header-cell *matHeaderCellDef>&nbsp;</th>
+                        <td mat-cell *matCellDef="let element" class="text-wrap">
+                            <button mat-icon-button type="button" color="accent" (click)="crearInstancia(element)" [disabled]="!autenticado">
+                                <mat-icon>play_arrow</mat-icon>
+                            </button>
+                        </td>
+                    </ng-container>
+                    <tr mat-header-row *matHeaderRowDef="dcTblClienteCorporacion"></tr>
+                    <tr mat-row *matRowDef="let row; columns: dcTblClienteCorporacion;"
+                        (click)="getClienteCorporacion(row)"></tr>
+                </table>
+            </mat-card-content>
+        </mat-card>
+    </mat-tab>
+    <mat-tab label="Facturacion" *ngIf="corporacion.cliente_corporacion">
+        <mat-card class="mat-elevation-z4">
+            <mat-card-content>
+                <form #frmEntidadFactura="ngForm" (ngSubmit)="frmEntidadFactura.form.valid && onSubmitEntidadFactura()"
+                    novalidate>
+                    <div class="form-group" *ngIf="edEntidad">
+                        <mat-form-field class="full-width">
+                            <input matInput placeholder="Nombre" name="nombre" [(ngModel)]="entFactura.nombre" required>
+                        </mat-form-field>
+                    </div>
+                    <div class="form-group" *ngIf="edEntidad">
+                        <mat-form-field class="full-width">
+                            <input matInput placeholder="NIT" name="nit" [(ngModel)]="entFactura.nit" required>
+                        </mat-form-field>
+                    </div>
+                    <div class="form-group" *ngIf="edEntidad">
+                        <mat-form-field class="full-width">
+                            <input matInput placeholder="Dirección" name="direccion" [(ngModel)]="entFactura.direccion"
+                                required>
+                        </mat-form-field>
+                    </div>
+                    <div class="form-group" *ngIf="edEntidad">
+                        <mat-form-field class="full-width">
+                            <input matInput placeholder="E-mail" name="correoe" [(ngModel)]="entFactura.correoe"
+                                required>
+                        </mat-form-field>
+                    </div>
+                    <div class="btn-group d-flex justify-content-end" role="group">
+                        <button mat-icon-button type="button" color="accent" (click)="edEntidad=true"
+                            *ngIf="!edEntidad">
+                            <mat-icon>keyboard_arrow_down</mat-icon>
+                        </button>
+                        <button mat-icon-button type="button" color="accent" (click)="edEntidad=false"
+                            *ngIf="edEntidad">
+                            <mat-icon>keyboard_arrow_up</mat-icon>
+                        </button>
+                        <button mat-icon-button type="submit" color="accent" *ngIf="edEntidad"
+                            [disabled]="!frmEntidadFactura.form.valid">
+                            <mat-icon>save</mat-icon>
+                        </button>
+                        <button mat-icon-button type="button" color="accent" (click)="resetEntidadFacturacion()"
+                            *ngIf="entFactura.entidad_facturacion && edEntidad">
+                            <mat-icon>add</mat-icon>
+                        </button>
+                    </div>
+                </form>
+                <hr *ngIf="entsFactura.length > 0" />
+                <table mat-table [dataSource]="dsTblEntidadFacturacion" class="mat-elevation-z4 full-width"
+                    *ngIf="entsFactura.length > 0">
+                    <ng-container matColumnDef="ver">
+                        <th mat-header-cell *matHeaderCellDef>&nbsp;</th>
+                        <td mat-cell *matCellDef="let row" class="text-wrap">
+                            <button mat-icon-button type="button" color="accent">
+                                <mat-icon>open_in_browser</mat-icon>
+                            </button>
+                        </td>
+                    </ng-container>
+                    <ng-container matColumnDef="nombre">
+                        <th mat-header-cell *matHeaderCellDef>Nombre</th>
+                        <td mat-cell *matCellDef="let element" class="text-wrap fontFamily">{{element.nombre}}</td>
+                    </ng-container>
+                    <ng-container matColumnDef="nit">
+                        <th mat-header-cell *matHeaderCellDef>NIT</th>
+                        <td mat-cell *matCellDef="let element" class="text-wrap fontFamily">{{element.nit}}</td>
+                    </ng-container>
+                    <tr mat-header-row *matHeaderRowDef="dcTblEntidadFacturacion"></tr>
+                    <tr mat-row *matRowDef="let row; columns: dcTblEntidadFacturacion;"
+                        (click)="getEntidadFacturacion(row)">
+                    </tr>
+                </table>
+            </mat-card-content>
+        </mat-card>
+    </mat-tab>
+    <mat-tab label="Módulos" *ngIf="corporacion.cliente_corporacion">
+        <mat-card class="mat-elevation-z4">
+            <mat-card-content>
+                <form #frmModuloCorporacion="ngForm"
+                    (ngSubmit)="frmModuloCorporacion.form.valid && onSubmitModuloCorporacion()" novalidate>
+                    <div class="form-group" *ngIf="edModulo">
+                        <mat-form-field class="full-width">
+                            <mat-label>Módulo</mat-label>
+                            <mat-select name="modulo" [(ngModel)]="moduloCorporacion.modulo" required>
+                                <mat-option *ngFor="let m of modulos" [value]="m.modulo">
+                                    {{m.descripcion}}
+                                </mat-option>
+                            </mat-select>
+                        </mat-form-field>
+                    </div>
+                    <div class="btn-group d-flex justify-content-end" role="group">
+                        <button mat-icon-button type="button" color="accent" (click)="edModulo=true" *ngIf="!edModulo">
+                            <mat-icon>keyboard_arrow_down</mat-icon>
+                        </button>
+                        <button mat-icon-button type="button" color="accent" (click)="edModulo=false" *ngIf="edModulo">
+                            <mat-icon>keyboard_arrow_up</mat-icon>
+                        </button>
+                        <button mat-icon-button type="submit" color="accent" *ngIf="edModulo"
+                            [disabled]="!frmModuloCorporacion.form.valid">
+                            <mat-icon>save</mat-icon>
+                        </button>
+                        <button mat-icon-button type="button" color="accent" (click)="resetModuloCorporacion()"
+                            *ngIf="moduloCorporacion.cliente_corporacion && moduloCorporacion.modulo">
+                            <mat-icon>add</mat-icon>
+                        </button>
+                    </div>
+                </form>
+                <hr *ngIf="modulosCorporacion.length > 0" />
+                <table mat-table [dataSource]="dsTblModulosCorporacion" class="mat-elevation-z4 full-width fontFamily"
+                    *ngIf="modulosCorporacion.length > 0">
+                    <ng-container matColumnDef="modulo">
+                        <th mat-header-cell *matHeaderCellDef>Módulo</th>
+                        <td mat-cell *matCellDef="let element" class="text-wrap">{{element.modulo.descripcion}}</td>
+                    </ng-container>
+                    <tr mat-header-row *matHeaderRowDef="dcTblModulosCorporacion"></tr>
+                    <tr mat-row *matRowDef="let row; columns: dcTblModulosCorporacion;">
+                    </tr>
+                </table>
+            </mat-card-content>
+        </mat-card>
+    </mat-tab>
+</mat-tab-group>

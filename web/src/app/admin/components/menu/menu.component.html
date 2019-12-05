@@ -1,0 +1,21 @@
+<mat-nav-list>
+    <h4 mat-subheader>Menú</h4>
+    <mat-list-item>
+        <mat-icon mat-list-icon>home</mat-icon>
+        <a [routerLink]="['/admin/dashboard']" routerLinkActive="active" matLine (click)="itemClicked()">
+            Inicio
+        </a>
+    </mat-list-item>
+    <mat-list-item>
+        <mat-icon mat-list-icon>apps</mat-icon>
+        <a [routerLink]="['/admin/modulo']" routerLinkActive="active" matLine (click)="itemClicked()">
+            Módulos
+        </a>
+    </mat-list-item>
+    <mat-list-item>
+        <mat-icon mat-list-icon>people</mat-icon>
+        <a [routerLink]="['/admin/cliente']" routerLinkActive="active" matLine (click)="itemClicked()">
+            Clientes
+        </a>
+    </mat-list-item>
+</mat-nav-list>

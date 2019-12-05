@@ -1,0 +1,17 @@
+<mat-card class="mat-elevation-z4">
+    <mat-card-content>
+        <mat-form-field style="width: 100%;">
+            <input matInput placeholder="Buscar..." [(ngModel)]="searchText">
+        </mat-form-field>
+        <mat-list>
+            <mat-list-item *ngFor="let m of lstModulos | filter: searchText : 'descripcion'"
+                (click)="getModulo(m.modulo)">
+                <mat-icon mat-list-icon>fiber_manual_record</mat-icon>
+                <h5 mat-line class="fontFamily">{{m.descripcion}}</h5>
+                <button mat-icon-button type="button" color="accent">
+                    <mat-icon>arrow_right_alt</mat-icon>
+                </button>
+            </mat-list-item>
+        </mat-list>
+    </mat-card-content>
+</mat-card>
