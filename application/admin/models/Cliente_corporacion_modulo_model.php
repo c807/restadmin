@@ -7,6 +7,8 @@ class Cliente_corporacion_modulo_model extends Db_model
         parent::__construct();
         $this->tabla = 'cliente_corporacion_modulo';
         $this->pKey = ['cliente_corporacion', 'modulo'];
+        $this->master = 'modulo';
+        $this->pKeyMaster = 'modulo';
         $this->setColumnas();
     }
 

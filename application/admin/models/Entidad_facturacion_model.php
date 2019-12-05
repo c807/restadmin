@@ -32,6 +32,7 @@ class Entidad_facturacion_model extends Db_model
                 $data['correoe'] = null;
             }
         }
+        return $data;
     }
 
     function crear($dataToInsert = null)

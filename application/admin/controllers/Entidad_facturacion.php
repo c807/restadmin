@@ -41,7 +41,9 @@ class Entidad_facturacion extends Restserver
     public function entidad_facturacion_post()
     {
         if ($this->status_verification_request) {
+            //var_dump($this->post());
             $datos = $this->getValidData($this->post(), $this->Entidad_facturacion_model->columnas);
+            //var_dump($datos);
             $status = parent::HTTP_OK;
             $nuevo = $this->Entidad_facturacion_model->crear($datos);
             $this->response($nuevo, $status);
